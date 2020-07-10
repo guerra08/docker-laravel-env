@@ -1,4 +1,4 @@
-# simple-laravel-docker
+# docker-laravel-env
 A simple Laravel boilerplate using Docker.
 
 Inspired by https://github.com/aschmelyun/docker-compose-laravel
