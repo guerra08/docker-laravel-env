@@ -24,14 +24,25 @@ services:
         restart: unless-stopped
         tty: true
         ports:
-            - "3306:3306"
+            - "5432:5432"
         environment:
             POSTGRES_DATABASE: laravel
-            POSTGRES_USER: glaravel
-            POSTGRES_PASSWORD: admin123
-            POSTGRES_ROOT_PASSWORD: admin123
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: pass
+            POSTGRES_ROOT_PASSWORD: rootpass
             SERVICE_TAGS: dev
             SERVICE_NAME: postgres
+        networks:
+            - laravel
+
+    composer:
+        image: composer:latest
+        container_name: composer
+        volumes:
+            - ./src:/var/www/html
+        working_dir: /var/www/html
+        depends_on:
+            - php
         networks:
             - laravel
 
@@ -46,6 +57,14 @@ services:
             - "9000:9000"
         networks:
             - laravel
+    
+    npm:
+        image: node:lts
+        container_name: npm
+        volumes:
+            - ./src:/var/www/html
+        working_dir: /var/www/html
+        entrypoint: ['npm']
 
     artisan:
         build:
